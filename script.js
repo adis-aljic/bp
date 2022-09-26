@@ -27,11 +27,12 @@ db.connect((err) => {
  
  contributorQuery.contributor(contributor_data)
  sessionQuery.session(session_data)
+ sessionQuery.insertIntoSessionTrack(session_data)
  locationQuery.location(location_data)
  labelQuery.label(label_data)
  resourceQuery.resources(resource_data)
  trackQuery.tracks(track_data)
  contributorQuery.updateSession_Track(contributor_data)
- updateAvailabilityQuery.updateAvailability(session_data)
- sessionQuery.insertIntoSessionTrack(session_data)
+//  updateAvailabilityQuery.updateAvailability(session_data)
+ locationQuery.location_availability(location_data)
  

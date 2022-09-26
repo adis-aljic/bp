@@ -1,4 +1,4 @@
--- drop DATABASE json1;
+  -- drop DATABASE json1;
 CREATE DATABASE json1;
 use json1;
 
@@ -27,28 +27,25 @@ last_modified DATETIME DEFAULT NULL
 
 );
 select * from contributor;
-CREATE TABLE availability (
-availability_id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE contributor_availability (
+availability_contributor_id INT PRIMARY KEY AUTO_INCREMENT,
 contributor_id VARCHAR (500) DEFAULT NULL,
-location_id VARCHAR (500) DEFAULT NULL,
 start_date DATETIME DEFAULT NULL,
 end_date DATETIME DEFAULT NULL,
 FOREIGN KEY (contributor_id) REFERENCES contributor(contributor_id)ON UPDATE CASCADE ON DELETE CASCADE
 );
-SELECT * FROM availability;
-Create TABLE Connection (
-Connection_id INT PRIMARY KEY AUTO_INCREMENT,
-contributor_id VARCHAR (500),
-FOREIGN KEY(contributor_id) REFERENCES contributor(contributor_id) on UPDATE CASCADE ON DELETE CASCADE,
-session_id VARCHAR (500) DEFAULT NULL,
-resource_id VARCHAR (500) DEFAULT NULL,
-track_id VARCHAR (500) DEFAULT NULL,
-locationid INT DEFAULT NULL,
-location_id VARCHAR (500) DEFAULT NULL
+ -- Create TABLE Connection (
+-- Connection_id INT PRIMARY KEY AUTO_INCREMENT,
+-- contributor_id VARCHAR (500),
+-- FOREIGN KEY(contributor_id) REFERENCES contributor(contributor_id) on UPDATE CASCADE ON DELETE CASCADE,
+-- session_id VARCHAR (500) DEFAULT NULL,
+-- resource_id VARCHAR (500) DEFAULT NULL,
+-- track_id VARCHAR (500) DEFAULT NULL,
+-- locationid INT DEFAULT NULL,
+-- location_id VARCHAR (500) DEFAULT NULL
 
 
-);
-select * from Connection;
+-- );
 CREATE TABLE session (
 session_id VARCHAR(500) PRIMARY KEY,
 name VARCHAR (500) NOT NULL,
@@ -64,13 +61,12 @@ last_modified DATETIME DEFAULT NULL
 CREATE TABLE session_track (
 session_track_id INT PRIMARY KEY AUTO_INCREMENT,
 session_id VARCHAR (100) DEFAULT NULL,
-FOREIGN KEY (session_id) REFERENCES session(session_id) ON UPDATE CASCADE ON DELETE CASCADE,
+-- FOREIGN KEY (session_id) REFERENCES session(session_id) ON UPDATE CASCADE ON DELETE CASCADE,
 track_id VARCHAR (100) DEFAULT NULL,
-locationid INT DEFAULT NULL,
 location_id VARCHAR (500) DEFAULT NULL
 
 );
-SELECT * from session_track;
+SELECT * from session;
 CREATE TABLE session_contributor (
 session_contributor_id INT PRIMARY KEY AUTO_INCREMENT,
 session_id VARCHAR (500) DEFAULT NULL,
@@ -79,7 +75,7 @@ contributor_id VARCHAR (500),
 FOREIGN KEY (contributor_id) REFERENCES contributor(contributor_id)ON UPDATE CASCADE ON DELETE CASCADE 	,
 role VARCHAR (50) DEFAULT NULL
 );
-
+select * from session_contributor;
 CREATE TABLE resource (
 resource_id VARCHAR (500) PRIMARY KEY,
 name VARCHAR (50) DEFAULT NULL,
@@ -97,7 +93,7 @@ color VARCHAR(500) DEFAULT NULL,
 last_modified DATETIME DEFAULT NULL
 
 );
-ALTER TABLE session_track ADD FOREIGN KEY (track_id) REFERENCES track (track_id) ON UPDATE CASCADE ON DELETE CASCADE;
+-- ALTER TABLE session_track ADD FOREIGN KEY (track_id) REFERENCES track (track_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 CREATE TABLE location (
@@ -115,10 +111,10 @@ last_modified DATETIME DEFAULT NULL
 -- FOREIGN KEY (session_id) REFERENCES session(session_id) ON UPDATE CASCADE ON DELETE CASCADE,
 
 -- );
-ALTER TABLE Connection ADD FOREIGN KEY (resource_id) REFERENCES resource (resource_id) ON UPDATE CASCADE ON DELETE CASCADE;
-	ALTER TABLE Connection ADD FOREIGN KEY (track_id) REFERENCES track (track_id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE Connection ADD FOREIGN KEY (locationid) REFERENCES location (locationid) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE Connection ADD FOREIGN KEY (session_id) REFERENCES session (session_id) ON UPDATE CASCADE ON DELETE CASCADE;
+-- ALTER TABLE Connection ADD FOREIGN KEY (resource_id) REFERENCES resource (resource_id) ON UPDATE CASCADE ON DELETE CASCADE;
+-- ALTER TABLE Connection ADD FOREIGN KEY (track_id) REFERENCES track (track_id) ON UPDATE CASCADE ON DELETE CASCADE;
+-- ALTER TABLE Connection ADD FOREIGN KEY (locationid) REFERENCES location (locationid) ON UPDATE CASCADE ON DELETE CASCADE;
+-- ALTER TABLE Connection ADD FOREIGN KEY (session_id) REFERENCES session (session_id) ON UPDATE CASCADE ON DELETE CASCADE;
 SELECT * FROM session_contributor;
 
 CREATE TABLE label (
@@ -127,4 +123,10 @@ name VARCHAR (500) DEFAULT NULL,
 description VARCHAR(500) DEFAULT NULL,
 description_html VARCHAR(500) DEFAULT NULL,
 last_modified DATETIME DEFAULT NULL
+);
+CREATE TABLE location_availability (
+location_availability_id INT PRIMARY KEY AUTO_INCREMENT,
+location_id VARCHAR (500) DEFAULT NULL,
+start_date DATETIME DEFAULT NULL,
+end_date DATETIME DEFAULT NULL
 );

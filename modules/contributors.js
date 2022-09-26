@@ -39,7 +39,6 @@ const contributor = (obj) => {
     VALUES( "${info.contributor_id}","${info.first_name}","${info.last_name}","${info.postNominal}","${info.email}","${info.company}",
     "${info.position}","${info.phone}","${info.twitter}","${info.facebook}","${info.linkedin}","${info.instagram}","${info.youtube}",
     "${info.bio}","${info.bio_HTML}","${info.headshotURL}","${info.headshotx2URL}","${info.notes}","${info.last_modified}");
-   INSERT INTO Connection (contributor_id) VALUE ("${info.contributor_id}"); 
     ` , info, function (err, data) {
             if (err) throw err
             else console.log("Data is added to contributors");
@@ -47,7 +46,7 @@ const contributor = (obj) => {
         item.availability.forEach(element => {
             info.start_date = element.startDate.slice(0, -1).replace(/[T]/, ' ')
             info.end_date = element.endDate.slice(0, -1).replace(/[T]/, ' ')
-        db.query(`INSERT INTO availability (contributor_id,start_date,end_date) VALUES ("${info.contributor_id}","${info.start_date}","${info.end_date}")`,
+        db.query(`INSERT INTO contributor_availability (contributor_id,start_date,end_date) VALUES ("${info.contributor_id}","${info.start_date}","${info.end_date}")`,
         info, function (err, data) {
                 if (err) throw err
                 else console.log("Data is added to avaibility");

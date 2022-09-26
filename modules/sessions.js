@@ -49,10 +49,9 @@ insertIntoSessionTrack = (obj) => {
 obj.forEach(item => {
     info.session_id =item.id;
     info.track_id =item.track;
-    info.contributor_id = item.contributors[0]
+    info.location_id = item.location
 
-    db.query(`  INSERT INTO session_track (session_id,track_id) VALUES ("${info.session_id}","${info.track_id}");
-    INSERT INTO session_contributor (session_id,contributor_id) VALUES ("${info.session_id}","${info.contributor_id}");
+    db.query(`  INSERT INTO session_track (session_id,track_id,location_id) VALUES ("${info.session_id}","${info.track_id}","${info.location_id}");
     `,info,function(err,data){
         if (err) throw err
         else console.log("inserted into join tabels");
