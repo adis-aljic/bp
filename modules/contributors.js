@@ -64,8 +64,8 @@ updateSession_Track = (obj) =>{
     const info = {}
     obj.forEach(item => {
     info.contributor_id = item.id
-
     item.sessions.forEach(element => {
+
         info.session_id = element
     db.query(`UPDATE session_track SET session_id = "${info.session_id}" WHERE contributor_id = "${info.contributor_id}";`,
     info, function (err, data) {

@@ -30,7 +30,7 @@ const session = (obj) => {
        VALUES( "${info.session_id}","${info.name}","${info.code}","${info.description}","${info.description_HTML}",
        "${info.startDate}",
        "${info.endDate}","${info.duration}","${info.color}","${info.last_modified}");
-     
+      
        
 
        ` 
