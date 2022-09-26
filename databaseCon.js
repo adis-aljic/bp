@@ -2,8 +2,8 @@ const con = {
     host: "localhost",
     user: "root",
     password: "wireless",
-    database: "json",
+    database: "json1",
   multipleStatements: true,
 }
 
-module.exports = con;   
+module.exports = con;     

@@ -14,22 +14,23 @@ const location = (location) => {
         info.name = item.name
         info.description = item.description
         info.description_HTML = item.description_HTML
-   info.last_modified = item.lastModified.slice(0,10)
+   info.last_modified = item.lastModified.slice(0, -1).replace(/[T]/, ' ')
 
    item.sessions.forEach(element => {
        
 info.session_id = element
- });
-    db.query(    
+db.query(    
+    
+    `INSERT INTO location(location_id,name,description,description_html,last_modified)
+    VALUES( "${info.location_id}","${info.name}","${info.description}","${info.description_HTML}","${info.last_modified}"
+    );
+     UPDATE session_track SET location_id  = "${info.location_id}" WHERE session_id = "${info.session_id}";
+    ` ,info,function(err,data){
+        if (err) throw err
+        else console.log(data);
         
-   `INSERT INTO location(location_id,name,description,description_html,last_modified)
-       VALUES( "${info.location_id}","${info.name}","${info.description}","${info.description_HTML}","${info.last_modified}"
-       );
-       ` ,info,function(err,data){
-     if (err) throw err
-     else console.log(data);
-     
- })
+    })
+});
  
 });
 

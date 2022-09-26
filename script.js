@@ -6,6 +6,7 @@ const sessionQuery = require('./modules/sessions');
 const labelQuery = require('./modules/labels');
 const locationQuery = require('./modules/location');
 const resourceQuery = require('./modules/resources');
+const updateAvailabilityQuery = require('./modules/aditional');
 const trackQuery = require('./modules/tracks');
 const db = mysql.createConnection(con);
 
@@ -30,4 +31,7 @@ db.connect((err) => {
  labelQuery.label(label_data)
  resourceQuery.resources(resource_data)
  trackQuery.tracks(track_data)
+ contributorQuery.updateSession_Track(contributor_data)
+ updateAvailabilityQuery.updateAvailability(session_data)
+ sessionQuery.insertIntoSessionTrack(session_data)
  

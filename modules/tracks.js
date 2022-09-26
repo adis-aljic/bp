@@ -15,7 +15,7 @@ const tracks = (tracks) => {
         info.description = item.description
         info.description_HTML = item.description_HTML
         info.color = item.color
-   info.last_modified = item.lastModified.slice(0,10)
+   info.last_modified = item.lastModified.slice(0, -1).replace(/[T]/, ' ')
 
     
     db.query(    
@@ -26,7 +26,7 @@ const tracks = (tracks) => {
     
        ` ,info,function(err,data){
      if (err) throw err
-     else console.log(data);
+     else console.log("Track is added");
      
  })
  

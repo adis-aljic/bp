@@ -14,7 +14,7 @@ const resources = (resources) => {
         info.name = item.name
         info.description = item.description
         info.description_HTML = item.description_HTML
-   info.last_modified = item.lastModified.slice(0,10)
+   info.last_modified = item.lastModified.slice(0, -1).replace(/[T]/, ' ')
 
     
     db.query(    
@@ -26,7 +26,7 @@ const resources = (resources) => {
     
        ` ,info,function(err,data){
      if (err) throw err
-     else console.log(data);
+     else console.log("Resources is added");
      
  })
  
