@@ -28,7 +28,7 @@ const contributor = (obj) => {
         info.headshotURL = item.headshotURL
         info.headshotx2URL = item.headshot2xURL
         info.notes = item.notes
-        info.last_modified = item.lastModified.slice(0, -1).replace(/[T]/, ' ')
+        info.last_modified = item.lastModified.slice(0, -5).replace(/[T]/, ' ')
 
 
         db.query(
@@ -39,44 +39,45 @@ const contributor = (obj) => {
     VALUES( "${info.contributor_id}","${info.first_name}","${info.last_name}","${info.postNominal}","${info.email}","${info.company}",
     "${info.position}","${info.phone}","${info.twitter}","${info.facebook}","${info.linkedin}","${info.instagram}","${info.youtube}",
     "${info.bio}","${info.bio_HTML}","${info.headshotURL}","${info.headshotx2URL}","${info.notes}","${info.last_modified}");
-    ` , info, function (err, data) {
+    INSERT INTO contributor_label (contributor_id) VALUE ("${info.contributor_id}")` 
+    , info, function (err, data) {
             if (err) throw err
             else console.log("Data is added to contributors");
         })
         item.availability.forEach(element => {
-            info.start_date = element.startDate.slice(0, -1).replace(/[T]/, ' ')
-            info.end_date = element.endDate.slice(0, -1).replace(/[T]/, ' ')
-        db.query(`INSERT INTO contributor_availability (contributor_id,start_date,end_date) VALUES ("${info.contributor_id}","${info.start_date}","${info.end_date}")`,
-        info, function (err, data) {
-                if (err) throw err
-                else console.log("Data is added to avaibility");
-            }
-            
+            info.start_date = element.startDate.slice(0, -5).replace(/[T]/, ' ')
+            info.end_date = element.endDate.slice(0, -5).replace(/[T]/, ' ')
+            db.query(`INSERT INTO contributor_availability (contributor_id,start_date,end_date) VALUES ("${info.contributor_id}","${info.start_date}","${info.end_date}")`,
+                info, function (err, data) {
+                    if (err) throw err
+                    else console.log("Data is added to avaibility");
+                }
+
             );
-            
+
         });
-       
+
     })
 }
 
-updateSession_Track = (obj) =>{
-    
+updateSession_Track = (obj) => {
+
     const info = {}
     obj.forEach(item => {
-    info.contributor_id = item.id
-    item.sessions.forEach(element => {
+        info.contributor_id = item.id
+        item.sessions.forEach(element => {
 
-        info.session_id = element
-    db.query(`UPDATE session_track SET session_id = "${info.session_id}" WHERE contributor_id = "${info.contributor_id}";`,
-    info, function (err, data) {
-            if (err) console.log("contributor missing");
-            else console.log("Data is added to avaibility");
-        }
-        
-        );
-        
-    });
-})
+            info.session_id = element
+            db.query(`UPDATE session_track SET session_id = "${info.session_id}" WHERE contributor_id = "${info.contributor_id}";`,
+                info, function (err, data) {
+                    if (err) console.log("contributor missing");
+                    else console.log("Data is added to avaibility");
+                }
+
+            );
+
+        });
+    })
 
 }
 module.exports = {

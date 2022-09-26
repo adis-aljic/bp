@@ -1,3 +1,4 @@
+const { Session } = require('inspector');
 const mysql = require('mysql2');
 const con = require('../databaseCon');
 const db = mysql.createConnection(con);
@@ -33,7 +34,28 @@ const tracks = (tracks) => {
 });
 
 }
+
+const track_session = (obj) =>{
+    const info = {}
+    const tracks = obj;
+    console.log(tracks[0].sessions[0]);
+    tracks.forEach(item => {
+       info.track_id = item.id
+    item.sessions.forEach(element => {
+        info.session_id = element
+        db.query(`INSERT INTO track_session(track_id,session_id) VALUES ("${info.track_id}","${info.session_id}");`,
+        info, function(err,data){
+            if (err) throw err
+            else console.log("track session is inserted");
+            
+        })
+        
+    });
+});
+
+}
 module.exports =  {
-tracks    
+tracks,
+track_session    
     
 }

@@ -1,8 +1,6 @@
-  -- drop DATABASE json1;
+    -- drop DATABASE json1;
 CREATE DATABASE json1;
 use json1;
-
-
 CREATE TABLE contributor (
 contributor_id VARCHAR (500) PRIMARY KEY,
 honorific VARCHAR (100) DEFAULT NULL,
@@ -46,6 +44,8 @@ FOREIGN KEY (contributor_id) REFERENCES contributor(contributor_id)ON UPDATE CAS
 
 
 -- );
+
+
 CREATE TABLE session (
 session_id VARCHAR(500) PRIMARY KEY,
 name VARCHAR (500) NOT NULL,
@@ -58,11 +58,10 @@ duration INT DEFAULT NULL,
 color VARCHAR(100) DEFAULT NULL,
 last_modified DATETIME DEFAULT NULL
 );
-CREATE TABLE session_track (
+CREATE TABLE session_location (
 session_track_id INT PRIMARY KEY AUTO_INCREMENT,
 session_id VARCHAR (100) DEFAULT NULL,
--- FOREIGN KEY (session_id) REFERENCES session(session_id) ON UPDATE CASCADE ON DELETE CASCADE,
-track_id VARCHAR (100) DEFAULT NULL,
+ FOREIGN KEY (session_id) REFERENCES session(session_id) ON UPDATE CASCADE ON DELETE CASCADE,
 location_id VARCHAR (500) DEFAULT NULL
 
 );
@@ -81,7 +80,8 @@ resource_id VARCHAR (500) PRIMARY KEY,
 name VARCHAR (50) DEFAULT NULL,
 description VARCHAR (500) DEFAULT NULL,
 description_html VARCHAR (500) DEFAULT NULL,
-last_modified DATETIME DEFAULT NULL
+last_modified DATETIME DEFAULT NULL,
+location_join_id INT
 );
 
 CREATE TABLE track(
@@ -91,14 +91,11 @@ description VARCHAR (500) DEFAULT NULL,
 description_html VARCHAR (500) DEFAULT NULL,
 color VARCHAR(500) DEFAULT NULL,
 last_modified DATETIME DEFAULT NULL
-
 );
--- ALTER TABLE session_track ADD FOREIGN KEY (track_id) REFERENCES track (track_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 CREATE TABLE location (
-locationid INT PRIMARY KEY AUTO_INCREMENT,
-location_id VARCHAR(500),
+location_id VARCHAR(500) PRIMARY KEY,
 name VARCHAR(50) DEFAULT NULL,
 description VARCHAR(500) DEFAULT NULL,
 description_html VARCHAR(500) DEFAULT NULL,
@@ -122,11 +119,40 @@ label_id VARCHAR(500) PRIMARY KEY,
 name VARCHAR (500) DEFAULT NULL,
 description VARCHAR(500) DEFAULT NULL,
 description_html VARCHAR(500) DEFAULT NULL,
-last_modified DATETIME DEFAULT NULL
+last_modified DATETIME DEFAULT NULL,
+location_join_id INT
 );
+SELECT * from label;
 CREATE TABLE location_availability (
 location_availability_id INT PRIMARY KEY AUTO_INCREMENT,
 location_id VARCHAR (500) DEFAULT NULL,
 start_date DATETIME DEFAULT NULL,
-end_date DATETIME DEFAULT NULL
+end_date DATETIME DEFAULT NULL,
+FOREIGN KEY (location_id) REFERENCES location(location_id)
+);
+
+CREATE TABLE contributor_label (
+contributor_label INT PRIMARY KEY AUTO_INCREMENT,
+contributor_id VARCHAR (500) DEFAULT NULL,
+FOREIGN KEY(contributor_id) REFERENCES contributor(contributor_id),
+label_id VARCHAR (500) DEFAULT NULL
+);
+CREATE TABLE location_join(
+location_join_id INT PRIMARY KEY AUTO_INCREMENT,
+location_id VARCHAR(500)DEFAULT null,
+FOREIGN KEY (location_id) REFERENCES location(location_id),
+track_id VARCHAR (500) DEFAULT NULL,
+label_id VARCHAR (500) DEFAULT NULL,
+resource_id VARCHAR (500) DEFAULT null
+);
+ALTER TABLE label ADD FOREIGN KEY (location_join_id)REFERENCES location_join(location_join_id);
+ALTER TABLE resource ADD FOREIGN KEY (location_join_id)REFERENCES location_join(location_join_id);
+
+CREATE TABLE track_session (
+track_session_id INT PRIMARY KEY AUTO_INCREMENT,
+track_id VARCHAR (500) DEFAULT NULL,
+-- FOREIGN KEY (track_id) REFERENCES track(track_id),
+session_id VARCHAR (500)DEFAULT null
+-- FOREIGN KEY (session_id) REFERENCES session(session_id)
+
 );
